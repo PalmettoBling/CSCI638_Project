@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS activity (
     activity_id BIGSERIAL PRIMARY KEY,
     activity_date DATE NOT NULL,
     type activity_type NOT NULL,
-    distance_km NUMERIC(8, 2) NOT NULL CHECK (distance_km >= 0),
+    distance_km NUMERIC(8, 2)
     duration_minutes INTEGER NOT NULL CHECK (duration_minutes > 0)
 );
 
@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS metrics (
     metrics_id BIGSERIAL PRIMARY KEY,
     activity_id BIGINT NOT NULL UNIQUE REFERENCES activity(activity_id) ON DELETE CASCADE,
     heart_rate SMALLINT CHECK (heart_rate BETWEEN 30 AND 240),
-    calories INTEGER CHECK (calories >= 0),
-    cadence SMALLINT CHECK (cadence >= 0)
+    calories INTEGER
+    cadence SMALLINT
 );
 
 CREATE TABLE IF NOT EXISTS weather (

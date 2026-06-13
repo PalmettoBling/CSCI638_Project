@@ -1,11 +1,19 @@
 CREATE TYPE activity_type AS ENUM ('run', 'bike', 'kayak');
 CREATE TYPE weather_type AS ENUM ('sunny', 'cloudy', 'rainy', 'snowy', 'windy', 'stormy', 'foggy');
 
+CREATE TABLE IF NOT EXISTS routes (
+    route_id BIGSERIAL PRIMARY KEY,
+    routes_name TEXT NOT NULL UNIQUE,
+    terrain_type TEXT,
+    difficulty_level TEXT
+);
+
 CREATE TABLE IF NOT EXISTS activity (
     activity_id BIGSERIAL PRIMARY KEY,
     activity_date DATE NOT NULL,
+    routes_name TEXT REFERENCES routes(routes_name),
     type activity_type NOT NULL,
-    distance_km NUMERIC(8, 2)
+    distance_km NUMERIC(8, 2),
     duration_minutes INTEGER NOT NULL CHECK (duration_minutes > 0)
 );
 
@@ -13,7 +21,7 @@ CREATE TABLE IF NOT EXISTS metrics (
     metrics_id BIGSERIAL PRIMARY KEY,
     activity_id BIGINT NOT NULL UNIQUE REFERENCES activity(activity_id) ON DELETE CASCADE,
     heart_rate SMALLINT CHECK (heart_rate BETWEEN 30 AND 240),
-    calories INTEGER
+    calories INTEGER,
     cadence SMALLINT
 );
 

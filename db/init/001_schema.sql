@@ -35,3 +35,4 @@ CREATE TABLE IF NOT EXISTS weather (
 
 CREATE INDEX IF NOT EXISTS idx_activity_date ON activity(activity_date);
 CREATE INDEX IF NOT EXISTS idx_activity_type ON activity(type);
+CREATE INDEX IF NOT EXISTS idx_activity_routes_name ON activity(routes_name);

@@ -85,23 +85,23 @@ CREATE OR REPLACE FUNCTION mapreduce_distance_by_type(
     p_end_date DATE DEFAULT NULL
 )
 RETURNS TABLE (
-    activity_kind TEXT,
+    activity_type TEXT,
     total_distance_km NUMERIC
 ) AS $$
 WITH mapped AS (
     SELECT
-        a.type::TEXT AS activity_kind,
+        a.type::TEXT AS activity_type_label,
         COALESCE(a.distance_km, 0)::numeric AS mapped_distance
     FROM activity a
     WHERE (p_start_date IS NULL OR a.activity_date >= p_start_date)
       AND (p_end_date IS NULL OR a.activity_date <= p_end_date)
 )
 SELECT
-    m.activity_kind,
+    m.activity_type_label AS activity_type,
     mapreduce_sum(m.mapped_distance) AS total_distance_km
 FROM mapped m
-GROUP BY m.activity_kind
-ORDER BY m.activity_kind;
+GROUP BY m.activity_type_label
+ORDER BY m.activity_type_label;
 $$ LANGUAGE sql STABLE;
 
 -- Example calls in Adminer:
